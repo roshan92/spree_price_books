@@ -108,7 +108,10 @@
 
       <div data-hook='price_book_priority'>
         <%= f.field_container :price_book_priority, class: ['form-group'] do %>
-          <%= f.label :price_books, Spree.t(:price_book_priority) %><br />
+          <%= f.label :price_books, Spree.t(:price_book_priority) %>
+          <br />
+          <!-- @error missing route spree/admin/price_books at /admin/stores/new - No route matches {:action=>"sort", :controller=>"spree/admin/price_books", :store_id=>#<Spree::Store id: nil, name: nil, url: nil, meta_description: nil, meta_keywords: nil, seo_title: nil, mail_from_address: nil, default_currency: nil, code: nil, default: false, created_at: nil, updated_at: nil, logo_file_name: nil>} missing required keys: [:store_id] -->
+          <% unless @store.new_record? %>
             <ol class='list-group sortable' data-href="<%= spree.sort_admin_store_price_books_path(@store) %>">
               <% @store.price_books.reorder('spree_store_price_books.priority ASC').each do |pb| %>
                 <li class='list-group-item' id='store_price_book_id_<%= pb.id %>'>
@@ -116,8 +119,9 @@
                 </li>
               <% end %>
             </ol>
-          <small><%= Spree.t(:store_price_book_priority_gotcha) %></small>
+          <% end %>
         <% end %>
+        <small><%= Spree.t(:store_price_book_priority_gotcha) %></small>
       </div>
 
     </div>
